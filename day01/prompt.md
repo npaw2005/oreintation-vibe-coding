@@ -1,0 +1,1 @@
+create a dummy student profile card using only html and css. add round corners, add shadow, u a professional looking and add a gradient background        
