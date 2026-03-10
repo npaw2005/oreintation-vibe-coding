@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idea Board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-content">
+            <h1>IdeaBoard</h1>
+            <div id="auth-links">
+                <button id="login-btn" onclick="showLogin()">Login</button>
+                <div id="user-info" class="hidden">
+                    <span id="display-username"></span>
+                    <button onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Submission Section (Hidden for guest) -->
+        <section id="submission-section" class="hidden">
+            <div class="card">
+                <h2>Submit an Idea</h2>
+                <div class="toolbar">
+                    <button onclick="execCmd('bold')"><b>B</b></button>
+                    <button onclick="execCmd('italic')"><i>I</i></button>
+                    <button onclick="execCmd('underline')"><u>U</u></button>
+                    <button onclick="execCmd('insertUnorderedList')">• List</button>
+                    <button onclick="execCmd('formatBlock', 'h3')">H</button>
+                </div>
+                <div id="editor" contenteditable="true" placeholder="Write your idea here..."></div>
+                <div class="card-footer">
+                    <button class="primary" onclick="submitIdea()">Post Idea</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ideas Feed -->
+        <section id="ideas-feed">
+            <h2>Latest Ideas</h2>
+            <div id="ideas-list">
+                <p>Loading ideas...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal hidden">
+        <div class="modal-content card">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" onclick="hideLogin()">Cancel</button>
+                    <button type="submit" class="primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
