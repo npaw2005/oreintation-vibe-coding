@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanical Animation: Wrench & Nut</title>
+    <style>
+        :root {
+            --metal-light: #d1d5db;
+            --metal-mid: #9ca3af;
+            --metal-dark: #4b5563;
+            --metal-shine: #f3f4f6;
+            --bg-color: #111827;
+            --brass: #b45309;
+            --bolt-color: #374151;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(circle at center, #1f2937, #111827);
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .controls {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--metal-dark);
+            color: white;
+            border: 1px solid var(--metal-mid);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--metal-mid);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Animation States */
+        .animating #wrench {
+            animation: wrench-tighten 3s infinite ease-in-out;
+        }
+
+        .animating #nut {
+            animation: nut-rotate 3s infinite ease-in-out;
+        }
+
+        @keyframes wrench-tighten {
+            0% { transform: rotate(0deg) translateX(0); }
+            10% { transform: rotate(-15deg) translateX(-10px); } /* Prep */
+            40% { transform: rotate(45deg) translateX(0); }     /* Tighten */
+            60% { transform: rotate(45deg) translateX(50px) translateY(-20px); opacity: 0.8; } /* Pull back */
+            80% { transform: rotate(0deg) translateX(50px) translateY(0); opacity: 0; } /* Reset pos */
+            100% { transform: rotate(0deg) translateX(0); opacity: 1; } /* Back to start */
+        }
+
+        @keyframes nut-rotate {
+            0% { transform: rotate(0deg) translateY(0); }
+            10% { transform: rotate(0deg) translateY(0); }
+            40% { transform: rotate(45deg) translateY(5px); } /* Rotate and move down thread */
+            100% { transform: rotate(45deg) translateY(5px); } /* Stay put until loop */
+        }
+
+        .label {
+            position: absolute;
+            bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="stage">
+        <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+            <!-- Definitions for Gradients -->
+            <defs>
+                <linearGradient id="metal-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:var(--metal-light);stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:var(--metal-shine);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:var(--metal-dark);stop-opacity:1" />
+                </linearGradient>
+                
+                <linearGradient id="bolt-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#1f2937" />
+                    <stop offset="50%" style="stop-color:#4b5563" />
+                    <stop offset="100%" style="stop-color:#1f2937" />
+                </linearGradient>
+
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+                    <feOffset dx="2" dy="4" result="offsetblur" />
+                    <feComponentTransfer>
+                        <feFuncA type="linear" slope="0.5" />
+                    </feComponentTransfer>
+                    <feMerge>
+                        <feMergeNode />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <!-- Bolt -->
+            <g id="bolt-group" transform="translate(300, 100)">
+                <!-- Threaded part -->
+                <rect x="-20" y="0" width="40" height="200" fill="url(#bolt-grad)" />
+                <!-- Threads (simulated with lines) -->
+                <g stroke="#111827" stroke-width="2">
+                    <line x1="-20" y1="20" x2="20" y2="25" />
+                    <line x1="-20" y1="40" x2="20" y2="45" />
+                    <line x1="-20" y1="60" x2="20" y2="65" />
+                    <line x1="-20" y1="80" x2="20" y2="85" />
+                    <line x1="-20" y1="100" x2="20" y2="105" />
+                    <line x1="-20" y1="120" x2="20" y2="125" />
+                    <line x1="-20" y1="140" x2="20" y2="145" />
+                    <line x1="-20" y1="160" x2="20" y2="165" />
+                    <line x1="-20" y1="180" x2="20" y2="185" />
+                </g>
+                <!-- Bolt Head -->
+                <path d="M -30 0 L 30 0 L 40 -20 L -40 -20 Z" fill="var(--metal-dark)" />
+            </g>
+
+            <!-- Nut -->
+            <g id="nut" transform="translate(300, 150)">
+                <path d="M 0 -30 L 26 -15 L 26 15 L 0 30 L -26 15 L -26 -15 Z" 
+                      fill="url(#metal-grad)" 
+                      stroke="#4b5563" 
+                      stroke-width="1"
+                      filter="url(#shadow)" />
+                <circle cx="0" cy="0" r="18" fill="#111827" />
+            </g>
+
+            <!-- Wrench -->
+            <g id="wrench" transform="translate(300, 150)">
+                <g transform="translate(-150, 0)">
+                    <!-- Wrench Handle -->
+                    <rect x="-150" y="-12" width="180" height="24" rx="10" fill="url(#metal-grad)" filter="url(#shadow)" />
+                    <!-- Wrench Head -->
+                    <g transform="translate(30, 0)">
+                        <circle cx="0" cy="0" r="45" fill="url(#metal-grad)" />
+                        <!-- The "C" opening -->
+                        <rect x="0" y="-18" width="50" height="36" fill="#111827" transform="rotate(0)" />
+                        <path d="M 5 -18 L 45 -18 L 45 18 L 5 18 Z" fill="#111827" />
+                    </g>
+                </g>
+            </g>
+        </svg>
+        <div class="label">Mechanical Precision v1.0</div>
+    </div>
+
+    <div class="controls">
+        <button id="toggleBtn">Start Tightening</button>
+        <button id="resetBtn">Reset Nut</button>
+    </div>
+
+    <script>
+        const stage = document.getElementById('stage');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const nut = document.getElementById('nut');
+        
+        let isAnimating = false;
+        let currentY = 150;
+
+        toggleBtn.addEventListener('click', () => {
+            isAnimating = !isAnimating;
+            if (isAnimating) {
+                stage.classList.add('animating');
+                toggleBtn.textContent = 'Stop';
+            } else {
+                stage.classList.remove('animating');
+                toggleBtn.textContent = 'Start Tightening';
+            }
+        });
+
+        resetBtn.addEventListener('click', () => {
+            stage.classList.remove('animating');
+            isAnimating = false;
+            toggleBtn.textContent = 'Start Tightening';
+            
+            // Trigger a reflow to reset CSS animations
+            nut.style.animation = 'none';
+            nut.offsetHeight; 
+            nut.style.animation = null;
+            
+            // Reset position manually if needed (though CSS animation does it)
+            nut.setAttribute('transform', 'translate(300, 150)');
+            document.getElementById('wrench').setAttribute('transform', 'translate(300, 150)');
+        });
+
+        // Optional: Track cumulative progress
+        // For a more "realistic" feel, we could increment the Y position 
+        // every time an animation cycle completes.
+    </script>
+</body>
+</html>

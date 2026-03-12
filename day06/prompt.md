@@ -1,0 +1,1 @@
+Prompt 3: “Create a single-file HTML/CSS/JS animation of a metal wrench tightening a hex nut on a threaded bolt.”

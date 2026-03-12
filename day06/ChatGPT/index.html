@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wrench Tightening Hex Nut Animation</title>
+  <style>
+    body {
+      background: #23272e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .scene {
+      position: relative;
+      width: 400px;
+      height: 300px;
+    }
+    /* Bolt */
+    .bolt {
+      position: absolute;
+      left: 170px;
+      top: 60px;
+      width: 60px;
+      height: 180px;
+      z-index: 1;
+    }
+    .bolt-shaft {
+      position: absolute;
+      left: 22px;
+      top: 40px;
+      width: 16px;
+      height: 120px;
+      background: linear-gradient(90deg, #b0b0b0 60%, #888 100%);
+      border-radius: 8px;
+      box-shadow: 0 0 8px #444 inset;
+    }
+    .bolt-head {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 60px;
+      height: 40px;
+      background: #b0b0b0;
+      clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+      box-shadow: 0 2px 8px #222;
+    }
+    /* Nut */
+    .nut {
+      position: absolute;
+      left: 170px;
+      top: 120px;
+      width: 60px;
+      height: 40px;
+      z-index: 2;
+      animation: nut-tighten 3s linear forwards;
+    }
+    .nut-body {
+      width: 60px;
+      height: 40px;
+      background: #888;
+      clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-shadow: 0 2px 8px #222;
+    }
+    .nut-hole {
+      position: absolute;
+      left: 18px;
+      top: 10px;
+      width: 24px;
+      height: 20px;
+      background: #23272e;
+      border-radius: 6px;
+      z-index: 1;
+    }
+    /* Wrench */
+    .wrench {
+      position: absolute;
+      left: 120px;
+      top: 110px;
+      width: 160px;
+      height: 60px;
+      z-index: 3;
+      transform-origin: 120px 30px;
+      animation: wrench-turn 3s linear forwards;
+    }
+    .wrench-head {
+      position: absolute;
+      left: 110px;
+      top: 10px;
+      width: 40px;
+      height: 40px;
+      background: #c0c0c0;
+      border-radius: 50% 50% 40% 40% / 50% 50% 60% 60%;
+      box-shadow: 0 2px 8px #222;
+      z-index: 2;
+    }
+    .wrench-jaw {
+      position: absolute;
+      left: 140px;
+      top: 18px;
+      width: 18px;
+      height: 12px;
+      background: #b0b0b0;
+      border-radius: 4px;
+      transform: rotate(20deg);
+    }
+    .wrench-jaw2 {
+      position: absolute;
+      left: 140px;
+      top: 30px;
+      width: 18px;
+      height: 12px;
+      background: #b0b0b0;
+      border-radius: 4px;
+      transform: rotate(-20deg);
+    }
+    .wrench-handle {
+      position: absolute;
+      left: 0;
+      top: 22px;
+      width: 120px;
+      height: 16px;
+      background: linear-gradient(90deg, #b0b0b0 60%, #888 100%);
+      border-radius: 8px;
+      box-shadow: 0 0 8px #444 inset;
+    }
+    /* Animation keyframes */
+    @keyframes wrench-turn {
+      0% { transform: rotate(-40deg); }
+      100% { transform: rotate(40deg); }
+    }
+    @keyframes nut-tighten {
+      0% { top: 120px; }
+      100% { top: 80px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="bolt">
+      <div class="bolt-head"></div>
+      <div class="bolt-shaft"></div>
+    </div>
+    <div class="nut">
+      <div class="nut-body"></div>
+      <div class="nut-hole"></div>
+    </div>
+    <div class="wrench">
+      <div class="wrench-head"></div>
+      <div class="wrench-jaw"></div>
+      <div class="wrench-jaw2"></div>
+      <div class="wrench-handle"></div>
+    </div>
+  </div>
+  <script>
+    // Optional: Loop the animation
+    function restartAnimation() {
+      const wrench = document.querySelector('.wrench');
+      const nut = document.querySelector('.nut');
+      wrench.style.animation = 'none';
+      nut.style.animation = 'none';
+      // Force reflow
+      void wrench.offsetWidth;
+      void nut.offsetWidth;
+      wrench.style.animation = 'wrench-turn 3s linear forwards';
+      nut.style.animation = 'nut-tighten 3s linear forwards';
+    }
+    setInterval(restartAnimation, 3500);
+  </script>
+</body>
+</html>
